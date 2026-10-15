@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  ============================================================================
+  Module Name : Systray Language Switcher
+  Description : Quick language selector template for Odoo 20 Systray (Owl 3)
+  Author      : Tommy Tran
+  License     : LGPL-3
+  ============================================================================
+-->
+<templates xml:space="preserve">
+
+    <t t-name="quick_language_switcher.LanguageSwitcher">
+        <div class="o_systray_item dropdown">
+            <button class="o-dropdown dropdown-toggle dropdown d-flex align-items-center justify-content-center h-100 px-3 border-0 bg-transparent text-secondary"
+                    type="button"
+                    data-bs-toggle="dropdown"
+                    data-bs-display="static"
+                    aria-expanded="false"
+                    title="Language Switcher">
+                <i class="oi" data-icon="translate" role="img" aria-label="Language"/>
+            </button>
+
+            <ul class="dropdown-menu dropdown-menu-end o_menu_systray_dropdown shadow border-0 mt-1 py-1" style="min-width: 210px;">
+                <t t-if="this.languages and this.languages.length > 0">
+                    <t t-foreach="this.languages" t-as="lang" t-key="lang.code">
+                        <li>
+                            <button class="dropdown-item d-flex align-items-center py-2 px-3 w-100 text-start"
+                                    t-att-class="lang.code === this.lang_code ? 'fw-bold text-primary' : ''"
+                                    type="button"
+                                    t-on-click="() => this.onChangeLanguage(lang.code)">
+
+                                <span class="d-inline-flex align-items-center me-2 flex-shrink-0" t-if="lang.flag_image_url">
+                                    <img t-att-src="lang.flag_image_url"
+                                         t-att-alt="lang.name"
+                                         class="rounded-1 object-fit-cover border border-opacity-50"
+                                         style="width: 20px; height: 14px;" />
+                                </span>
+
+                                <span class="flex-grow-1 text-truncate">
+                                    <t t-out="lang.name"/>
+                                </span>
+
+                                <i class="oi ms-3 text-primary"
+                                   data-icon="check"
+                                   t-if="lang.code === this.lang_code"
+                                   role="img"
+                                   aria-label="Selected"/>
+                            </button>
+                        </li>
+                    </t>
+                </t>
+                <t t-else="">
+                    <li>
+                        <span class="dropdown-item text-muted text-center py-2">Loading...</span>
+                    </li>
+                </t>
+            </ul>
+        </div>
+    </t>
+
+</templates>
